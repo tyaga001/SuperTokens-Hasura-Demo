@@ -3,11 +3,7 @@ import React, { useEffect } from 'react';
 import './App.scss';
 import axios from 'axios';
 import Session, { useSessionContext } from 'supertokens-auth-react/recipe/session';
-import {
-  ApolloClient,
-  InMemoryCache,
-  ApolloProvider,
-} from '@apollo/client';
+import { ApolloClient, InMemoryCache, ApolloProvider } from '@apollo/client';
 import { Outlet } from 'react-router-dom';
 import AppRoutes from './shared/components/routes/AppRoutes';
 import useLogout from './hooks/useLogout';
@@ -18,7 +14,7 @@ Session.addAxiosInterceptors(axios);
 function App() {
   const { accessTokenPayload } = useSessionContext();
   const client = new ApolloClient({
-    uri: 'https://e-kart.hasura.app/v1/graphql',
+    uri: 'https://supertokens.hasura.app/v1/graphql',
     cache: new InMemoryCache(),
     headers: {
       Authorization: `Bearer ${accessTokenPayload?.jwt}`,
