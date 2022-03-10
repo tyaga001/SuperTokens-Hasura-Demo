@@ -32,11 +32,15 @@ const FETCH_PRODUCT = gql`query getProduct($pid: Int!) {
     status
     descriptions
   }
+  user_cart(where: {product_id: {_eq: $pid}}) {
+    product_id
+  }
 }
+
 `;
 
-const ADD_TO_CART = gql`mutation addToCart($pid: Int!) {
-  insert_user_cart_one(object: {product_id: $pid}) {
+const ADD_TO_CART = gql`mutation addToCart($pid: Int!, $price: Int!) {
+  insert_user_cart_one(object: {product_id: $pid, price: $price}) {
     product_id
   }
 }
@@ -131,18 +135,25 @@ export default function ProductDetails() {
   const product = data?.products[0];
   const [addToCartLoader, setAddToCartLoader] = useState(false);
   const classes = useStyles();
-  const cartBtnTxt = useRef('ADD TO CART');
+  const [cartBtnTxt, setCartBtnTxt] = useState('ADD TO CART');
   const navigate = useNavigate();
-
+  useEffect(() => {
+    setCartBtnTxt(data?.user_cart.length > 0 ? 'GO TO CART' : 'ADD TO CART');
+  }, [data]);
   const addToCartHandler = async () => {
-    cartBtnTxt.current = 'GOIN TO CART';
-    setAddToCartLoader(true);
-    await addToCart({
-      variables: {
-        pid,
-      },
-    });
-    navigate('/cart');
+    if (data?.user_cart.length > 0) {
+      navigate('/cart');
+    } else {
+      setCartBtnTxt('GOING TO CART');
+      setAddToCartLoader(true);
+      await addToCart({
+        variables: {
+          pid,
+          price: product.price,
+        },
+      });
+      navigate('/cart');
+    }
   };
   return (
     <Box sx={{ padding: '20px' }}>
@@ -170,7 +181,7 @@ export default function ProductDetails() {
                     startIcon={<AddShoppingCartIcon />}
                     onClick={addToCartHandler}
                   >
-                    {cartBtnTxt.current}
+                    {cartBtnTxt}
                   </LoadingButton>
                   <LoadingButton
                     variant="contained"

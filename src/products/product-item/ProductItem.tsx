@@ -60,7 +60,8 @@ const useStyles: any = makeStyles(() => ({
   },
 }));
 
-const ProductItem = memo(({ productData }: {productData: Product}) => {
+const ProductItem = memo(({ productData, whishlisted }:
+  {productData: Product, whishlisted: boolean}) => {
   const [addToWhishlist,
     { loading: whishlistLoading, error: whishlistError }] = useMutation(ADD_TO_WHISHLIST);
   const [removeFromWhishlist,
@@ -69,7 +70,7 @@ const ProductItem = memo(({ productData }: {productData: Product}) => {
     name, price, product_img_url, status,
   } = productData;
   const navigate = useNavigate();
-  const [whishtlised, setWhishlisted] = useState(false);
+  const [whishtlised, setWhishlisted] = useState(whishlisted);
   const { addToast } = useToast();
   const componentMounted = useRef(false);
 

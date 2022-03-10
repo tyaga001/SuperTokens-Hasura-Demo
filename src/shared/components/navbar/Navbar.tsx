@@ -16,6 +16,7 @@ import NotificationsIcon from '@mui/icons-material/Notifications';
 import MoreIcon from '@mui/icons-material/MoreVert';
 import { AppBar } from '@mui/material';
 import Paper from '@mui/material/Paper';
+import { useNavigate } from 'react-router-dom';
 import useLogout from '../../../hooks/useLogout';
 
 export default function Navbar() {
@@ -25,7 +26,7 @@ export default function Navbar() {
   const isMenuOpen = Boolean(anchorEl);
   const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
   const logout = useLogout();
-
+  const navigate = useNavigate();
   const handleProfileMenuOpen = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorEl(event.currentTarget);
   };
@@ -91,18 +92,7 @@ export default function Navbar() {
         </IconButton>
         <p>Messages</p>
       </MenuItem>
-      <MenuItem>
-        <IconButton
-          size="large"
-          aria-label="show 17 new notifications"
-          color="inherit"
-        >
-          <Badge badgeContent={17} color="error">
-            <NotificationsIcon />
-          </Badge>
-        </IconButton>
-        <p>Notifications</p>
-      </MenuItem>
+
       <MenuItem onClick={handleProfileMenuOpen}>
         <IconButton
           size="large"
@@ -161,20 +151,12 @@ export default function Navbar() {
             </Paper>
           </Box>
           <Box sx={{ display: { xs: 'none', md: 'flex' } }}>
-            <IconButton size="large" aria-label="show 4 new mails" color="inherit">
-              <Badge badgeContent={4} color="error">
+            <IconButton onClick={() => navigate('/cart')} size="large" aria-label="show 4 new mails" color="inherit">
+              <Badge color="error">
                 <AddShoppingCartIcon />
               </Badge>
             </IconButton>
-            <IconButton
-              size="large"
-              aria-label="show 17 new notifications"
-              color="inherit"
-            >
-              <Badge badgeContent={17} color="error">
-                <NotificationsIcon />
-              </Badge>
-            </IconButton>
+
             <IconButton
               size="large"
               edge="end"

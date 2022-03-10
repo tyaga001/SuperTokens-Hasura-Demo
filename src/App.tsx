@@ -18,7 +18,7 @@ Session.addAxiosInterceptors(axios);
 function App() {
   const { accessTokenPayload } = useSessionContext();
   const client = new ApolloClient({
-    uri: 'https://supertokens.hasura.app/v1/graphql',
+    uri: 'https://e-kart.hasura.app/v1/graphql',
     cache: new InMemoryCache(),
     headers: {
       Authorization: `Bearer ${accessTokenPayload?.jwt}`,
