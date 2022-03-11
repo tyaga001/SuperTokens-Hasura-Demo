@@ -21,7 +21,7 @@ SuperTokens.init({
         if (context.action === 'SUCCESS') {
           return '/home';
         }
-        return '/auth';
+        return undefined;
       },
       emailVerificationFeature: {
         mode: 'REQUIRED',
@@ -33,13 +33,11 @@ SuperTokens.init({
 
 ReactDOM.render(
   <React.StrictMode>
-
     <BrowserRouter>
       <SessionAuth>
         <App />
       </SessionAuth>
     </BrowserRouter>
-
   </React.StrictMode>,
   document.getElementById('root'),
 );
