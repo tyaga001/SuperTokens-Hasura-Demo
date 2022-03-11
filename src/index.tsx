@@ -1,11 +1,35 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
-
-import { SessionAuth } from 'supertokens-auth-react/recipe/session';
+import SuperTokens from 'supertokens-auth-react';
+import Session, { SessionAuth } from 'supertokens-auth-react/recipe/session';
 import { BrowserRouter } from 'react-router-dom';
+import EmailPassword from 'supertokens-auth-react/recipe/emailpassword';
+import { getApiDomain, getWebsiteDomain } from './utils/utils';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
+
+SuperTokens.init({
+  appInfo: {
+    appName: 'Shopping App',
+    apiDomain: getApiDomain(),
+    websiteDomain: getWebsiteDomain(),
+  },
+  recipeList: [
+    EmailPassword.init({
+      getRedirectionURL: async (context) => {
+        if (context.action === 'SUCCESS') {
+          return '/home';
+        }
+        return '/auth';
+      },
+      emailVerificationFeature: {
+        mode: 'REQUIRED',
+      },
+    }),
+    Session.init(),
+  ],
+});
 
 ReactDOM.render(
   <React.StrictMode>
@@ -20,7 +44,4 @@ ReactDOM.render(
   document.getElementById('root'),
 );
 
-// If you want to start measuring performance in your app, pass a function
-// to log results (for example: reportWebVitals(console.log))
-// or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
 reportWebVitals();
