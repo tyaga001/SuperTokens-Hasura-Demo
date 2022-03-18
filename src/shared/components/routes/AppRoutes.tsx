@@ -3,7 +3,6 @@
 import React from "react";
 import { Routes, Route, Outlet } from "react-router-dom";
 import { getSuperTokensRoutesForReactRouterDom } from "supertokens-auth-react";
-import { SessionAuth } from "supertokens-auth-react/recipe/session";
 import EmailPassword from "supertokens-auth-react/recipe/emailpassword";
 import ProductList from "../../../products/product-list/ProductList";
 import Navbar from "../navbar/Navbar";
@@ -26,11 +25,7 @@ function WithoutNav() {
 }
 
 function WithSession({ children }: { children: JSX.Element }) {
-    return (
-        <SessionAuth>
-            <RequireAuth>{children}</RequireAuth>
-        </SessionAuth>
-    );
+    return <RequireAuth>{children}</RequireAuth>;
 }
 
 export default function AppRoutes() {
